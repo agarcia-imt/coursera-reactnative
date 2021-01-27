@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Card } from 'react-native-elements';
+import { DISHES } from '../shared/dishes';
 
 const RenderDish = ({ dish }) => {
   // const { dish } = props;
@@ -18,9 +19,19 @@ const RenderDish = ({ dish }) => {
   }
 }
 
-const DishDetail = ({ dish }) => {
-  // const { dish } = props;
-  return <RenderDish dish={ dish } />;
+class DishDetail extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dishes: DISHES
+    };
+  }
+
+  render() {
+    const { dishes } = this.state;
+    const { dishId } =this.props.route.params; // index to select in dishes array. Needs converting to number
+    return <RenderDish dish={ dishes[+dishId] } />;
+  }
 };
 
 export default DishDetail;
