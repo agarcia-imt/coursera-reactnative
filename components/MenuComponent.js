@@ -23,7 +23,7 @@ class Menu extends React.Component {
       //{ item, index, separators } se pasan como argumentos dentro de un objeto a la funcion
       return (
         <ListItem bottomDivider onPress={ () => navigate('DishDetail', { dishId: item.id }) }>
-          <Avatar rounded source={{ uri: require('./images/uthappizza.png') }}/>
+          <Avatar rounded source={require('./images/uthappizza.png')}/>
           <ListItem.Content>
             <ListItem.Title>{item.name}</ListItem.Title>
             <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
