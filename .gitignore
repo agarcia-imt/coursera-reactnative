@@ -57,8 +57,17 @@ buck-out/
 *.jsbundle
 
 # CocoaPods
+/ios/Podfile.lock
 /ios/Pods/
 
 # Expo
 .expo/*
 web-build/
+
+
+node_modules
+.vscode
+yarn.lock
+package-lock.json
+.DS_Store
+Podfile.lock
