@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, Text, Button } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import { Card } from 'react-native-elements';
 import { DISHES } from '../shared/dishes';
 import { PROMOTIONS } from '../shared/promotions';
@@ -38,7 +38,6 @@ class Home extends React.Component {
         <RenderItem item={ dishes.filter(dish => dish.featured)[0] } />
         <RenderItem item={ promotions.filter(promo => promo.featured)[0] } />
         <RenderItem item={ leaders.filter(leader => leader.featured)[0] } />
-        <Button title='Drawer' onPress={ () => this.props.navigation.openDrawer()}/>
       </ScrollView>
     )
   }
