@@ -3,38 +3,38 @@ import {
   View,
   FlatList
 } from 'react-native';
-import { ListItem, Avatar } from 'react-native-elements';
-import { DISHES } from '../shared/dishes';
+import { Tile } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+  return {
+    dishes: state.dishes
+  };
+};
 
 class Menu extends React.Component {
-  // const { dishes, onPress } = props;
-  constructor(props) {
-    super(props);
-    this.state = {
-      dishes: DISHES
-    };
-  }
-
   render() {
     const { navigate } = this.props.navigation;
-    const { dishes } = this.state;
+    const { dishes } = this.props;
 
     const renderMenuItem = ({ item, index }) => {
       //{ item, index, separators } se pasan como argumentos dentro de un objeto a la funcion
       return (
-        <ListItem bottomDivider onPress={ () => navigate('DishDetail', { dishId: item.id }) }>
-          <Avatar rounded source={require('./images/uthappizza.png')}/>
-          <ListItem.Content>
-            <ListItem.Title>{item.name}</ListItem.Title>
-            <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
-          </ListItem.Content>
-        </ListItem>
+        <Tile 
+          imageSrc={{uri: baseUrl + item.image}}
+          title={ item.name }
+          caption={ item.description }
+          featured
+          onPress={ () => navigate('DishDetail', { dishId: item.id }) }
+          key={ index }
+        />
       );
     }
     
     return (
       <FlatList
-        data={ dishes } //array of items
+        data={ dishes.dishes } //array of items
         renderItem={ renderMenuItem } //function
         keyExtractor={ item => item.id.toString() } //busca en cada item del array pasado en 'data'
       />
@@ -42,4 +42,4 @@ class Menu extends React.Component {
   }
 }
 
-export default Menu;
+export default connect(mapStateToProps)(Menu);
