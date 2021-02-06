@@ -30,6 +30,8 @@ export const addComments = comments => ({
   payload: comments
 });
 
+////////////////////////////////////////////////////////////////
+
 export const fetchDishes = () => dispatch => {
   dispatch(dishesLoading());
   return fetch(`${baseUrl}dishes`)
@@ -67,6 +69,9 @@ export const addDishes = dishes => ({
   payload: dishes
 });
 
+////////////////////////////////////////////////////////////////
+
+
 export const fetchPromos = () => dispatch => {
   dispatch(promosLoading());
   return fetch(`${baseUrl}promotions`)
@@ -103,6 +108,9 @@ export const addPromos = promos => ({
   type: ActionTypes.ADD_PROMOS,
   payload: promos
 });
+
+////////////////////////////////////////////////////////////////
+
 
 export const fetchLeaders = () => dispatch => {
   dispatch(leadersLoading());

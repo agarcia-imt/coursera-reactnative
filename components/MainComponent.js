@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { 
   View,
   Platform,
@@ -7,6 +7,7 @@ import {
   Text,
   ScrollView
 } from 'react-native';
+import Constants from 'expo-constants';
 import { Icon } from 'react-native-elements';
 import { createStackNavigator } from '@react-navigation/stack';
 import { 
@@ -15,12 +16,34 @@ import {
   DrawerItemList
 } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import Constants from 'expo-constants';
+import { connect } from 'react-redux';
+import {
+  fetchComments,
+  fetchDishes,
+  fetchLeaders,
+  fetchPromos
+} from '../redux/ActionCreators';
 import Menu from './MenuComponent';
 import DishDetail from './DishDetailComponent';
 import Home from './HomeComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
+
+const mapStateToProps = state => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+    promotions: state.promotions,
+    leaders: state.leaders
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  fetchComments: () => dispatch(fetchComments()),
+  fetchDishes: () => dispatch(fetchDishes()),
+  fetchLeaders: () => dispatch(fetchLeaders()),
+  fetchPromos: () => dispatch(fetchPromos())
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -242,7 +265,15 @@ const MainNavigator = () => {
   )
 }
 
-const Main = () => {
+const Main = ({fetchComments, fetchDishes, fetchLeaders, fetchPromos}) => {
+
+  useEffect(() => {
+    fetchComments();
+    fetchDishes();
+    fetchLeaders();
+    fetchPromos();
+  }, []);
+
   return (
     <View style={{ flex:1, paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight }}>
       <NavigationContainer>
@@ -252,4 +283,4 @@ const Main = () => {
   );
 }
 
-export default Main;
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
