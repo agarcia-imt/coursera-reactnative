@@ -1,11 +1,13 @@
 import React from 'react';
 import {
   View,
-  FlatList
+  FlatList,
+  Text
 } from 'react-native';
 import { Tile } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import Loading from './LoadingComponent';
 
 const mapStateToProps = state => {
   return {
@@ -13,25 +15,32 @@ const mapStateToProps = state => {
   };
 };
 
-class Menu extends React.Component {
-  render() {
-    const { navigate } = this.props.navigation;
-    const { dishes } = this.props;
+const Menu = ({dishes, navigation}) => {
+  const { navigate } = navigation;
 
-    const renderMenuItem = ({ item, index }) => {
-      //{ item, index, separators } se pasan como argumentos dentro de un objeto a la funcion
-      return (
-        <Tile 
-          imageSrc={{uri: baseUrl + item.image}}
-          title={ item.name }
-          caption={ item.description }
-          featured
-          onPress={ () => navigate('DishDetail', { dishId: item.id }) }
-          key={ index }
-        />
-      );
-    }
-    
+  const renderMenuItem = ({ item, index }) => {
+    //{ item, index, separators } se pasan como argumentos dentro de un objeto a la funcion
+    return (
+      <Tile 
+        imageSrc={{uri: baseUrl + item.image}}
+        title={ item.name }
+        caption={ item.description }
+        featured
+        onPress={ () => navigate('DishDetail', { dishId: item.id }) }
+        key={ index }
+      />
+    );
+  }
+
+  if (dishes.isLoading) {
+    return <Loading />;
+  } else if (dishes.errMess) {
+    return (
+      <View>
+        <Text>{ dishes.errMess }</Text>
+      </View>
+    );
+  } else {
     return (
       <FlatList
         data={ dishes.dishes } //array of items
