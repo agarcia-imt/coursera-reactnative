@@ -3,6 +3,7 @@ import { ScrollView, Text, FlatList } from 'react-native';
 import { Card, ListItem, Avatar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import Loading from './LoadingComponent';
 
 const mapStateToProps = state => {
   return {
@@ -38,20 +39,45 @@ const About = ({ leaders }) => {
     );
   }
 
-  return (
-    <ScrollView>
-      <History/>
-      <Card>
-        <Card.Title>Corporate Leadership</Card.Title>
-        <Card.Divider/>
-        <FlatList
-          data={leaders.leaders}
-          renderItem={renderLeader}
-          keyExtractor={item => item.id.toString()}
-        />
-      </Card>
-  </ScrollView>
-  );
+  if (leaders.isLoading) {
+    return (
+      <ScrollView>
+        <History/>
+        <Card>
+          <Card.Title>Corporate Leadership</Card.Title>
+          <Card.Divider/>
+          <Loading />
+        </Card>
+      </ScrollView>
+    );
+  } else if (leaders.errMess) {
+    return (
+      <ScrollView>
+          <History/>
+          <Card>
+            <Card.Title>Corporate Leadership</Card.Title>
+            <Card.Divider/>
+            <Text>{leaders.errMess}</Text>
+          </Card>
+      </ScrollView>
+    );
+  } else {
+    return (
+      <ScrollView>
+        <History/>
+        <Card>
+          <Card.Title>Corporate Leadership</Card.Title>
+          <Card.Divider/>
+          <FlatList
+            data={leaders.leaders}
+            renderItem={renderLeader}
+            keyExtractor={item => item.id.toString()}
+          />
+        </Card>
+      </ScrollView>
+    );
+  }
+  
 };
 
 export default connect(mapStateToProps)(About);
